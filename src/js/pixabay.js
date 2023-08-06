@@ -1,5 +1,5 @@
 
-// import Notiflix from 'notiflix';
+
 import axios from 'axios';
 // import pixabay from 'pixabay';
 
@@ -20,14 +20,12 @@ export class ImagesApi {
     constructor() {
         this.page = 1;
     }
-    search(term) {
-        return axios.get(`${BASE_URL}?key=${API_KEY}&q=${encodeURIComponent(term)}&image_type=photo&orientation=horizontal&safesearch=true`)
-            .then(response => {
-                if (response.status != 200) {
-                    throw new Error(response.status);
-                }
-                return response.data;
-            });
+    async search(term) {
+        const response = await axios.get(`${BASE_URL}?key=${API_KEY}&q=${encodeURIComponent(term)}&image_type=photo&orientation=horizontal&safesearch=true`);
+        if (response.status != 200) {
+            throw new Error(response.status);
+        }
+        return response.data;
     };
 }
 
