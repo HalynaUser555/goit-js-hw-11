@@ -21,6 +21,10 @@ buttonEl.addEventListener('click', event => {
 
 function search() {
     loardMoreBtn.classList.add('is-hidden')
+    if (searchQueryEl.value.trim().length === 0) {
+        Notiflix.Notify.warning("Please enter name to search.");
+        return;
+    }
     imageApi.search(searchQueryEl.value)
         .then(data => {
             if (data.hits.length === 0) {
@@ -41,15 +45,15 @@ function search() {
 
             console.log(data.hits)
             console.log(imageApi.limit)
-            if (data.hits.length === imageApi.limit) {
+            if (data.totalHits >= imageApi.page * imageApi.limit) {
                 loardMoreBtn.classList.remove('is-hidden')
             } else {
                 loardMoreBtn.classList.add('is-hidden')
+                Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.");
             }
         })
-
         .catch(data => {
-            Notiflix.Notify.warning("We're sorry, but you've reached the end of search results.");
+            console.log(data);
             loardMoreBtn.classList.add('is-hidden')
         });
 }
